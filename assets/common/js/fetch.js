@@ -32,6 +32,6 @@ export const fetchData = (data, callback, album = false, artist = false) => {
     })
     .catch((err) => {
       console.log(err)
-      // fetchData(data, album, artist, callback)
+      fetchData(data, album, artist, callback)
     })
 }

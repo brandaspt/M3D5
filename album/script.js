@@ -15,34 +15,15 @@ const playerPreviousBtn = document.getElementById("previous-track-btn")
 const playerNextBtn = document.getElementById("next-track-btn")
 const volumeInput = document.getElementById("volume-input")
 
-let hash
+let hash = window.location.hash.replace("#", "")
 
-window.onload = () => {
-  hash = window.location.hash.replace("#", "")
-  console.log(hash)
-}
+
 // dynamic populating part
 function giveData(data) {
   addCover(data)
   populateSongs(data)
 }
 fetchData(hash, giveData, true)
-
-// fetch("https://deezerdevs-deezer.p.rapidapi.com/album/84191982", {
-//   method: "GET",
-//   headers: {
-//     "x-rapidapi-key": "0750e50bdfmsh5caa63f730b70d9p1a24d2jsn08753afd75e9",
-//     "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
-//   },
-// })
-//   .then((response) => response.json())
-//   .then((data) => {
-//     addCover(data)
-//     populateSongs(data)
-//   })
-//   .catch((err) => {
-//     console.error(err)
-//   })
 
 const addCover = (album) => {
   const coverCol = document.createElement("div")
