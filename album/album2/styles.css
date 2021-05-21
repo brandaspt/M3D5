@@ -1,0 +1,128 @@
+body {
+  background-color: #2a472a;
+  background-image: linear-gradient(
+    180deg,
+    rgba(42, 71, 42, 1) 10%,
+    rgba(2, 2, 2, 0.8) 47%
+  );
+
+  background-attachment: scroll;
+
+  font-family: "Montserrat", sans-serif;
+}
+
+/* main */
+
+main nav {
+  position: fixed;
+  top: 0;
+  /* right: 25px; */
+  left: 250px;
+  width: calc(100vw - 250px);
+
+  padding: 0 60px;
+  height: 60px;
+}
+.main-nav.bg-on {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+main h1 {
+  color: #ffffff;
+  font-size: 4vw;
+  font-weight: 800;
+  margin-bottom: 25px;
+}
+main h1 ~ p {
+  margin-bottom: 8px;
+  font-size: 1em;
+}
+main p,
+th,
+td {
+  color: #9b9c9b;
+  font-weight: bold;
+}
+main h6 {
+  color: white;
+  font-weight: 600;
+}
+main .fa-circle {
+  color: white;
+  font-size: 6px;
+}
+main nav button.btn {
+  border-radius: 50%;
+  border-color: transparent;
+
+  background-color: rgba(0, 0, 0);
+  margin-right: 1em;
+}
+main nav .dropdown-toggle {
+  background-color: black !important;
+}
+main nav .dropdown-menu {
+  background-color: #282828;
+  color: white;
+}
+main nav .dropdown-menu a {
+  color: white;
+}
+main nav .dropdown-menu a:hover {
+  color: #282828;
+}
+main button i {
+  color: whitesmoke;
+}
+thead {
+  border-bottom: 1px solid white;
+  padding-bottom: 20px;
+}
+table td > div > div {
+  margin-right: 15px;
+  height: 60px;
+}
+table td > div > div img {
+  height: inherit;
+}
+table > thead > tr > th:nth-child(5) > i {
+  padding-left: 4em;
+}
+table tr td:nth-child(5) {
+  padding-left: 4.5em;
+}
+
+tr:hover {
+  background-color: #212521;
+}
+main img:first-of-type {
+  margin-right: 20px;
+}
+
+main .fa-heart {
+  font-size: 2em;
+  margin-right: 1em;
+  color: #b3b8b2;
+}
+#playBtn {
+  font-size: 4em;
+  color: #1cb955;
+  background-color: white;
+  border-radius: 50%;
+  margin-right: 0.7em;
+}
+#playBtn:hover {
+  transform: scale(1.2);
+}
+main svg {
+  color: #b3b8b2;
+}
+main svg:hover {
+  color: white;
+}
+
+/*
+  ##############################
+  End of album page
+  ##############################
+  */

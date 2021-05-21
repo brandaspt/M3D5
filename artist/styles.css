@@ -1,0 +1,223 @@
+/*
+##############################
+Start of album page
+##############################
+*/
+
+/* Header */
+header {
+  height: 400px;
+  background-image: url("../assets/artist/images/bonoboHero.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+  mask-image: gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+}
+.hero-content {
+  position: absolute;
+  width: calc(100vw - 250px);
+  top: 100px;
+  left: 0px;
+  letter-spacing: 1px;
+}
+.hero-content .listeners {
+  color: rgb(228, 228, 228);
+}
+.hero-content .artist-name {
+  color: white;
+}
+.hero-content .header-btns > button {
+  width: 140px;
+  letter-spacing: 1px;
+}
+.hero-content .hero-play-btn {
+  background-color: #1cb955;
+  border: 2px solid #1cb955;
+  color: white;
+  backface-visibility: hidden;
+  transition: all 0.5s;
+}
+.hero-content .hero-follow-btn {
+  color: white;
+  margin: 0 10px;
+  border: 2px solid white;
+  background-color: rgba(0, 0, 0, 0.4);
+  backface-visibility: hidden;
+  transition: all 0.5s;
+}
+.hero-follow-btn.followed {
+  background-color: #1cb955;
+}
+.hero-content .header-btns i {
+  color: white;
+  font-size: 1.5em;
+  backface-visibility: hidden;
+  transition: all 0.5s;
+}
+.hero-content .header-btns > *:hover {
+  transform: scale(1.05) translateZ(0);
+}
+
+/* Main navbar */
+.main-nav {
+  position: absolute;
+  width: 100%;
+  top: 340px;
+  left: 0px;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.7);
+  transition: background-color 0.7s;
+}
+.main-nav.bg-on {
+  position: fixed;
+  top: 0;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+@media screen and (min-width: 576px) {
+  .main-nav {
+    width: calc(100vw - 250px);
+    left: 0px;
+  }
+  .main-nav .nav-show {
+    display: none;
+  }
+  .main-nav.bg-on {
+    left: 250px;
+  }
+}
+.main-nav .show a,
+.main-nav .collapsing a {
+  padding-left: 15px;
+}
+
+.main-nav .navbar-toggler {
+  padding: 0;
+  outline: none;
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #999999;
+}
+.main-nav a {
+  color: #999999;
+}
+
+.main-nav a:hover {
+  color: rgb(180, 180, 180);
+}
+.main-nav a.active {
+  color: white;
+  position: relative;
+}
+@media screen and (min-width: 768px) {
+  .main-nav a.active::after {
+    content: "";
+    height: 2px;
+    width: 35px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0px;
+    border: 1px solid rgb(116, 173, 29);
+  }
+  .main-nav {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+/* Albums section */
+#albums .card,
+#top-tracks .card {
+  background-color: rgba(0, 0, 0, 0.123);
+  cursor: pointer;
+  transition: 0.5s;
+}
+#albums .card:hover,
+#top-tracks .card:hover {
+  background-color: rgba(255, 255, 255, 0.123);
+}
+
+/* Top Tracks section */
+.card-title {
+  color: white;
+  font-size: 0.9em;
+}
+.track-album {
+  color: #929292;
+  font-size: 0.8em;
+  margin: 0;
+}
+.card-text {
+  color: #929292;
+  font-size: 0.8em;
+}
+.card-play-btn,
+.card-pause-btn {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  height: 40px;
+  width: 40px;
+  background-color: #1cb955;
+  color: white;
+  text-align: center;
+  filter: drop-shadow(0 5px 10px black);
+}
+.playing .card-play-btn {
+  display: none;
+}
+.playing .card-pause-btn {
+  display: block;
+}
+.card-play-btn {
+  transform: translateY(50%) scaleY(0);
+  opacity: 0;
+  transition: 0.5s;
+}
+.card-pause-btn {
+  display: none;
+}
+#albums .card:hover .card-play-btn,
+#top-tracks .card:hover .card-play-btn {
+  transform: translateY(0) scaleY(1);
+  opacity: 1;
+}
+
+#top-tracks .top-tracks-cards img {
+  border-radius: 20px;
+}
+
+/* About section */
+.about-hero {
+  height: 60vh;
+  background-image: url("https://i.scdn.co/image/d92f9ea6047df5634eb46b4a2a6a032e3c4e29c2");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  color: white;
+}
+.about-description {
+  height: 30%;
+  overflow-y: scroll;
+  cursor: ns-resize;
+}
+
+/*
+##############################
+End of home page
+##############################
+*/

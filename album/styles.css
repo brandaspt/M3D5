@@ -1,0 +1,55 @@
+/*
+##############################
+Start of album page
+##############################
+*/
+body {
+  height: 100vh;
+  background: rgb(16, 16, 16);
+}
+
+/* main */
+main > .container > .row {
+  margin: 50px 0px 10px 20px; /* ? */
+}
+.album-cover {
+  text-align: center;
+}
+.album-cover img {
+  max-width: 300px;
+  filter: drop-shadow(0 0 10px grey);
+}
+.album-cover .btn {
+  background-color: #1cb955;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.album-cover button {
+  background-color: transparent;
+  border: none;
+}
+.album-cover p {
+  font-size: 12px;
+}
+.album-cover svg.bi-three-dots {
+  margin-left: 10px;
+}
+main p {
+  color: #787878;
+  font-weight: 700;
+}
+/* when does margin-left or margin-right auto works? and how can i better select */
+.col-md-1,
+.col-md-2 {
+  display: flex;
+  justify-content: flex-end;
+}
+.tack-lists svg {
+  margin-left: auto;
+}
+
+/*
+##############################
+End of album page
+##############################
+*/

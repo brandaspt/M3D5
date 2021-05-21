@@ -1,0 +1,84 @@
+.side-navbar {
+  height: inherit;
+}
+.side-navbar > div:first-child {
+  padding-left: 15px;
+}
+.side-navbar .nav-logo {
+  padding-top: 25px;
+  width: 180px;
+}
+
+.side-navbar .active {
+  color: white;
+}
+.side-navbar ul {
+  margin: 0;
+  margin-top: 20px;
+  margin-left: 5px;
+  padding: 0;
+}
+.side-navbar li {
+  list-style: none;
+  margin: 15px 0;
+}
+.side-navbar a:hover {
+  color: rgb(180, 180, 180);
+}
+
+aside svg {
+  margin-right: 1em;
+}
+aside .btn {
+  margin: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  width: 200px;
+}
+.profile-img {
+  border-radius: 50%;
+  float: left;
+  margin-left: 15px;
+}
+.side-hr {
+  color: white;
+}
+.profile-name {
+  float: left;
+  padding: 6px;
+}
+.profile-name p {
+  color: white;
+  font-size: 15px;
+}
+.download-icon {
+  color: gray;
+  font-size: 20px;
+}
+.download-icon span {
+  padding-left: 10px;
+  font-size: 15px;
+  margin-right: 65px;
+}
+
+.rounded-pill {
+  border: 2px solid #888988;
+  background-color: #151719;
+  color: white;
+}
+aside nav p {
+  font-size: 12px;
+  color: gray;
+}
+aside nav p:first-of-type {
+  margin-right: 10px;
+}
+aside nav p:nth-of-type(2) {
+  margin-left: 10px;
+}
+aside nav .line-between {
+  border-right: 2px solid gray;
+  height: 15px;
+  width: 2px;
+}

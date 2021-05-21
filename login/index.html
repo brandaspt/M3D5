@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0"
+      crossorigin="anonymous"
+    />
+
+    <!-- Fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+    />
+
+    <!-- Own css -->
+    <link rel="stylesheet" href="./styles.css" />
+
+    <title>Spotify Login</title>
+  </head>
+  <body>
+    <!-- logo navbar -->
+
+    <img
+      src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Black.png"
+      alt=""
+      class="center"
+    />
+    <hr />
+    <div class="container page">
+      <div>
+        <h4 id="login-opion">To continue, log in to Spotify.</h4>
+        <div class="d-grid gap-2">
+          <a href="facebook.com" class="btn login-facebook">
+            <i class="fab fa-facebook"></i>
+            CONTINUE WITH FACEBOOK
+          </a>
+
+          <a href="apple.com" class="btn btn-secondary login-apple">
+            <i class="fab fa-apple"></i>
+            CONTINUE WITH APPLE
+          </a>
+        </div>
+        <div class="container-fluid d-flex"></div>
+
+        <div class="hr-left"><hr /></div>
+        <h6 class="d-inline-block">OR</h6>
+        <div class="hr-right"><hr /></div>
+      </div>
+
+      <form action="">
+        <div class="form-group">
+          <label for="email"></label>
+          <input
+            type="email"
+            placeholder="Email address or username"
+            class="form-control"
+          />
+          <label for="lastName"></label>
+          <input type="password" placeholder="Password" class="form-control" />
+          <div class="row mt-3">
+            <div class="col-6">
+              <input
+                type="checkbox"
+                id="RememberMe"
+                name="Remember me"
+                value="RememberMe"
+                class="checkbox"
+              />
+              <label for="Remember me">Remember me</label>
+            </div>
+            <div class="col-6">
+              <a href="../index.html" class="btn login-btn">LOG IN</a>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <a href="#"><p class="forgotPassword pb-5">Forgot your password?</p></a>
+
+      <hr />
+      <a href="#"><p class="an-acc pt-5">Don't have an account?</p></a>
+      <div class="d-grid gap-2">
+        <a href="#" class="btn btn-outline-dark sign-up mb-5px">
+          SIGN UP FOR SPOTIFY
+        </a>
+      </div>
+      <hr />
+
+      <p id="privacy">
+        If you click "log in with facebook" and are not a spotify user, you will
+        be registered and you agree to spotify's
+        <a href="#">Terms &amp Conditions</a>
+        and
+        <a href="#">Privacy Policy</a>
+      </p>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
