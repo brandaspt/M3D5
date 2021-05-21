@@ -5,7 +5,7 @@ import {
   playerSongCard,
   secsToMins,
   activeNavLink,
-} from "../assets/common/js/player.js";
+} from "../assets/common/js/player.js"
 
 /*
 ##############################
@@ -13,30 +13,30 @@ Global Selectors
 ##############################
 */
 // Main nav
-const mainNav = document.querySelector(".main-nav");
-const mainNavLinks = document.querySelectorAll(".main-nav a");
+const mainNav = document.querySelector(".main-nav")
+const mainNavLinks = document.querySelectorAll(".main-nav a")
 
 // Main section
-const mainSection = document.querySelector("main");
-const heroContent = document.querySelector("main .hero-content");
+const mainSection = document.querySelector("main")
+const heroContent = document.querySelector("main .hero-content")
 
 // Albums section
-const albumsGrid = document.querySelector("#albums > .albums-cards");
+const albumsGrid = document.querySelector("#albums > .albums-cards")
 
 // Top tracks section
-const topTracksGrid = document.querySelector("#top-tracks > .top-tracks-cards");
+const topTracksGrid = document.querySelector("#top-tracks > .top-tracks-cards")
 
 // Player section
-const playerPlayBtn = document.getElementById("player-play-btn");
-const playerPauseBtn = document.getElementById("player-pause-btn");
-const playerPreviousBtn = document.getElementById("previous-track-btn");
-const playerNextBtn = document.getElementById("next-track-btn");
-const volumeInput = document.getElementById("volume-input");
+const playerPlayBtn = document.getElementById("player-play-btn")
+const playerPauseBtn = document.getElementById("player-pause-btn")
+const playerPreviousBtn = document.getElementById("previous-track-btn")
+const playerNextBtn = document.getElementById("next-track-btn")
+const volumeInput = document.getElementById("volume-input")
 
 window.onload = () => {
   // Add ev listener to main nav links
   for (const link of mainNavLinks) {
-    link.addEventListener("click", activeNavLink);
+    link.addEventListener("click", activeNavLink)
   }
 
   // Fetch artist data
@@ -49,9 +49,9 @@ window.onload = () => {
   })
     .then((response) => response.json())
     .then((fetchedArtist) => {
-      populateHeroContent(fetchedArtist);
+      populateHeroContent(fetchedArtist)
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(error))
 
   // Fetch albums
   fetch(
@@ -66,9 +66,9 @@ window.onload = () => {
   )
     .then((response) => response.json())
     .then((fetchedAlbums) => {
-      populateAlbums(fetchedAlbums.data);
+      populateAlbums(fetchedAlbums.data)
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(error))
 
   // Fetch Top Tracks
   fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=bonobo", {
@@ -80,47 +80,50 @@ window.onload = () => {
   })
     .then((response) => response.json())
     .then((fetchedTracks) => {
-      populateTopTracks(fetchedTracks.data);
+      populateTopTracks(fetchedTracks.data)
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(error))
 
   // Volume Input range
   volumeInput.addEventListener("change", (e) => {
-    console.log("changed");
-    volumeInput.style.setProperty("--value", volumeInput.value);
+    console.log("changed")
+    volumeInput.style.setProperty("--value", volumeInput.value)
     volumeInput.style.setProperty(
       "--min",
       volumeInput.min === "" ? "0" : volumeInput.min
-    );
+    )
     volumeInput.style.setProperty(
       "--max",
       volumeInput.max === "" ? "100" : volumeInput.max
-    );
-    volumeInput.style.setProperty("--value", volumeInput.value);
-  });
+    )
+    volumeInput.style.setProperty("--value", volumeInput.value)
+  })
 
   // Add event listener to player control buttons
   playerPlayBtn.addEventListener("click", () => {
-    playTrack(playerSongCard(topTracksGrid));
-  });
-  playerPauseBtn.addEventListener("click", pauseTrack);
+    playTrack(playerSongCard(topTracksGrid))
+  })
+  playerPauseBtn.addEventListener("click", pauseTrack)
   playerPreviousBtn.addEventListener("click", () => {
     const previousCard =
       playerSongCard(
         topTracksGrid
-      ).parentElement.previousElementSibling.querySelector(".card");
-    playTrack(previousCard);
-  });
+      ).parentElement.previousElementSibling.querySelector(".card")
+    playTrack(previousCard)
+  })
   playerNextBtn.addEventListener("click", () => {
     const nextCard =
       playerSongCard(
         topTracksGrid
-      ).parentElement.nextElementSibling.querySelector(".card");
-    playTrack(nextCard);
-  });
-};
+      ).parentElement.nextElementSibling.querySelector(".card")
+    playTrack(nextCard)
+  })
+}
 
 const populateHeroContent = (artistData) => {
+  document
+    .querySelector("header")
+    .setAttribute("style", `background-image: url(${artistData.picture_xl})`)
   heroContent.innerHTML = `
     <p class="listeners fw-bold m-0">${artistData.nb_fan.toLocaleString()}</p>
     <h1 class="artist-name my-5">${artistData.name}</h1>
@@ -132,36 +135,36 @@ const populateHeroContent = (artistData) => {
         >FOLLOW</button>
         <i class="fas fa-ellipsis-h"></i>
     </div>
-  `;
+  `
 
   // Add ev listener to hero play btn
   heroContent.querySelector(".hero-play-btn").addEventListener("click", () => {
-    playTrack(playerSongCard(topTracksGrid));
-  });
+    playTrack(playerSongCard(topTracksGrid))
+  })
 
   // Add ev listener to hero follow btn
   heroContent
     .querySelector(".hero-follow-btn")
     .addEventListener("click", (event) => {
-      const heroFollowBtn = event.currentTarget;
-      heroFollowBtn.classList.toggle("followed");
+      const heroFollowBtn = event.currentTarget
+      heroFollowBtn.classList.toggle("followed")
       if (heroFollowBtn.classList.contains("followed")) {
-        heroFollowBtn.innerText = "FOLLOWED";
+        heroFollowBtn.innerText = "FOLLOWED"
       } else {
-        heroFollowBtn.innerText = "FOLLOW";
+        heroFollowBtn.innerText = "FOLLOW"
       }
-    });
+    })
 
   // Populate About section listeners
   document.getElementById("about-listeners").innerText = `${
     document.querySelector(".listeners").innerText
-  } monthly listeners`;
-};
+  } monthly listeners`
+}
 
 const populateAlbums = (albumsData) => {
-  let counter = 0;
+  let counter = 0
   for (const album of albumsData) {
-    counter++;
+    counter++
     albumsGrid.innerHTML += `
         <div class="col p-0">
                 <div class="card border-0 p-2 mx-1 h-100">
@@ -190,15 +193,15 @@ const populateAlbums = (albumsData) => {
                   
                 </div>
               </div>
-        `;
-    if (counter === 12) break;
+        `
+    if (counter === 12) break
   }
-};
+}
 
 const populateTopTracks = (tracksData) => {
-  let counter = 0;
+  let counter = 0
   for (const track of tracksData) {
-    counter++;
+    counter++
     topTracksGrid.innerHTML += `
         <div class="col p-0">
           <div class="card border-0 p-2 mx-1 h-100">
@@ -226,29 +229,29 @@ const populateTopTracks = (tracksData) => {
               </div>
               <audio src="${track.preview}"></audio>
           </div>
-        </div>`;
-    if (counter === 12) break;
+        </div>`
+    if (counter === 12) break
   }
   topTracksGrid.querySelectorAll(".card-play-btn").forEach((button) => {
     button.addEventListener("click", () => {
-      const closestCard = button.closest(".card");
-      playTrack(closestCard);
-    });
-  });
+      const closestCard = button.closest(".card")
+      playTrack(closestCard)
+    })
+  })
   topTracksGrid.querySelectorAll(".card-pause-btn").forEach((button) => {
-    button.addEventListener("click", pauseTrack);
-  });
+    button.addEventListener("click", pauseTrack)
+  })
 
-  initMusicPlayer(topTracksGrid);
-};
+  initMusicPlayer(topTracksGrid)
+}
 
 // Set bg color for main nav upon scroll
 mainSection.addEventListener("scroll", () => {
   if (mainSection.scrollTop > 340) {
     if (!mainNav.classList.contains("bg-on")) {
-      mainNav.classList.add("bg-on");
+      mainNav.classList.add("bg-on")
     }
   } else if (mainNav.classList.contains("bg-on")) {
-    mainNav.classList.remove("bg-on");
+    mainNav.classList.remove("bg-on")
   }
-});
+})

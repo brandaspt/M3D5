@@ -7,10 +7,9 @@ Start of album page
 /* Header */
 header {
   height: 400px;
-  background-image: url("../assets/artist/images/bonoboHero.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: top;
+  background-position: center;
   -webkit-mask-image: -webkit-gradient(
     linear,
     left top,
