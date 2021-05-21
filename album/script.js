@@ -47,7 +47,7 @@ const addCover = (album) => {
         alt=""
       />
       <h3 class="mt-2">${album.title}</h3>
-      <p class="">${album.artist.name}</p>
+      <a href="../artist/index.html#${album.artist.id}_${album.artist.name}"<p>${album.artist.name}</p>
       <button type="button" class="btn rounded-pill my-3 px-5 text-light" id="btn-play">PLAY</button>
       <p>${album.release_date} | ${album.nb_tracks} SONGS</p>
       <!-- heart -->
