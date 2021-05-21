@@ -203,10 +203,9 @@ header {
 /* About section */
 .about-hero {
   height: 60vh;
-  background-image: url("https://i.scdn.co/image/d92f9ea6047df5634eb46b4a2a6a032e3c4e29c2");
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: bottom;
+  background-position: top;
   color: white;
 }
 .about-description {

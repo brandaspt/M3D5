@@ -36,7 +36,8 @@ main > .container > .row {
 }
 main p {
   color: #787878;
-  font-weight: 700;
+  font-weight: 500;
+  line-height: 19px;
 }
 /* when does margin-left or margin-right auto works? and how can i better select */
 .col-md-1,
@@ -46,6 +47,14 @@ main p {
 }
 .tack-lists svg {
   margin-left: auto;
+}
+
+.cover .song {
+  border-bottom: 1px solid rgb(32, 32, 32);
+}
+
+.song-col {
+  min-height: 20px;
 }
 
 /*
