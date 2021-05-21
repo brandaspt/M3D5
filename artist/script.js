@@ -9,8 +9,6 @@ import {
 
 import { fetchData } from "../assets/common/js/fetch.js"
 
-let globalArtist = "bonobo"
-
 /*
 ##############################
 Global Selectors
@@ -40,7 +38,7 @@ const volumeInput = document.getElementById("volume-input")
 let hash
 
 window.onload = () => {
-  hash = window.location.hash.replace("%20", " ").split("_")
+  hash = window.location.hash.replace("#", "").replace("%20", " ").split("_")
   console.log(hash)
   // Add ev listener to main nav links
   for (const link of mainNavLinks) {
@@ -48,13 +46,13 @@ window.onload = () => {
   }
 
   // Fetch artist data
-  fetchData("2108", populateHeroContent, false, true)
+  fetchData(hash[0], populateHeroContent, false, true)
 
   // Fetch albums
-  fetchData("2108", populateAlbums, true, true)
+  fetchData(hash[0], populateAlbums, true, true)
 
   // Fetch Top Tracks
-  fetchData(globalArtist, populateTopTracks)
+  fetchData(hash[1], populateTopTracks)
 
   // Volume Input range
   volumeInput.addEventListener("change", (e) => {
@@ -127,10 +125,13 @@ const populateHeroContent = (artistData) => {
       }
     })
 
-  // Populate About section listeners
+  // Populate About section
   document.getElementById("about-listeners").innerText = `${
     document.querySelector(".listeners").innerText
   } monthly listeners`
+  document
+    .querySelector("#about > div")
+    .setAttribute("style", `background-image: url(${artistData.picture_xl})`)
 }
 
 const populateAlbums = (albumsData) => {
@@ -172,7 +173,7 @@ const populateAlbums = (albumsData) => {
 
 const populateTopTracks = (tracksData) => {
   const filteredTracks = tracksData.filter((track) =>
-    track.artist.name.toLowerCase().includes(globalArtist.toLowerCase())
+    track.artist.name.toLowerCase().includes(hash[1].toLowerCase())
   )
   console.log(filteredTracks)
   topTracksGrid.innerHTML = filteredTracks
