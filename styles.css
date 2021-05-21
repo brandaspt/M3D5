@@ -118,7 +118,6 @@ Start of home page
 /* Search grid */
 #search .card {
   background-color: rgba(0, 0, 0, 0.123);
-  cursor: pointer;
   transition: 0.5s;
 }
 .card-title {

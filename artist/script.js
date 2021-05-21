@@ -7,6 +7,10 @@ import {
   activeNavLink,
 } from "../assets/common/js/player.js"
 
+import { fetchData } from "../assets/common/js/fetch.js"
+
+let globalArtist = "bonobo"
+
 /*
 ##############################
 Global Selectors
@@ -33,56 +37,24 @@ const playerPreviousBtn = document.getElementById("previous-track-btn")
 const playerNextBtn = document.getElementById("next-track-btn")
 const volumeInput = document.getElementById("volume-input")
 
+let hash
+
 window.onload = () => {
+  hash = window.location.hash.replace("%20", " ").split("_")
+  console.log(hash)
   // Add ev listener to main nav links
   for (const link of mainNavLinks) {
     link.addEventListener("click", activeNavLink)
   }
 
   // Fetch artist data
-  fetch("https://striveschool-api.herokuapp.com/api/deezer/artist/2108", {
-    method: "GET",
-    headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDYzMWYwNDQyNGY0NzAwMTUzZGVmY2MiLCJpYXQiOjE2MTkxNjYyNTMsImV4cCI6MTYyMDM3NTg1M30.qqMlSKGggXQ_6F_5dyAsIxEFzCFsQZUF6LHGbFMz3Is",
-    },
-  })
-    .then((response) => response.json())
-    .then((fetchedArtist) => {
-      populateHeroContent(fetchedArtist)
-    })
-    .catch((error) => console.log(error))
+  fetchData("2108", populateHeroContent, false, true)
 
   // Fetch albums
-  fetch(
-    "https://striveschool-api.herokuapp.com/api/deezer/artist/2108/albums",
-    {
-      method: "GET",
-      headers: {
-        Authorization:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDYzMWYwNDQyNGY0NzAwMTUzZGVmY2MiLCJpYXQiOjE2MTkxNjYyNTMsImV4cCI6MTYyMDM3NTg1M30.qqMlSKGggXQ_6F_5dyAsIxEFzCFsQZUF6LHGbFMz3Is",
-      },
-    }
-  )
-    .then((response) => response.json())
-    .then((fetchedAlbums) => {
-      populateAlbums(fetchedAlbums.data)
-    })
-    .catch((error) => console.log(error))
+  fetchData("2108", populateAlbums, true, true)
 
   // Fetch Top Tracks
-  fetch("https://striveschool-api.herokuapp.com/api/deezer/search?q=bonobo", {
-    method: "GET",
-    headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDYzMWYwNDQyNGY0NzAwMTUzZGVmY2MiLCJpYXQiOjE2MTkxNjYyNTMsImV4cCI6MTYyMDM3NTg1M30.qqMlSKGggXQ_6F_5dyAsIxEFzCFsQZUF6LHGbFMz3Is",
-    },
-  })
-    .then((response) => response.json())
-    .then((fetchedTracks) => {
-      populateTopTracks(fetchedTracks.data)
-    })
-    .catch((error) => console.log(error))
+  fetchData(globalArtist, populateTopTracks)
 
   // Volume Input range
   volumeInput.addEventListener("change", (e) => {
@@ -199,16 +171,19 @@ const populateAlbums = (albumsData) => {
 }
 
 const populateTopTracks = (tracksData) => {
-  let counter = 0
-  for (const track of tracksData) {
-    counter++
-    topTracksGrid.innerHTML += `
+  const filteredTracks = tracksData.filter((track) =>
+    track.artist.name.toLowerCase().includes(globalArtist.toLowerCase())
+  )
+  console.log(filteredTracks)
+  topTracksGrid.innerHTML = filteredTracks
+    .map(
+      (track) => `
         <div class="col p-0">
           <div class="card border-0 p-2 mx-1 h-100">
               <div class="w-100 position-relative">
                 <img src="${track.album.cover_big}" class="card-img-top" alt="${
-      track.title
-    }"/>
+        track.title
+      }"/>
                 <button class="btn rounded-circle card-play-btn">
                   <svg height="16" role="img" width="16" viewBox="0 0 24 24" aria-hidden="true">
                     <polygon points="21.57 12 5.98 3 5.98 21 21.57 12" fill="currentColor"></polygon>
@@ -230,8 +205,9 @@ const populateTopTracks = (tracksData) => {
               <audio src="${track.preview}"></audio>
           </div>
         </div>`
-    if (counter === 12) break
-  }
+    )
+    .join("")
+
   topTracksGrid.querySelectorAll(".card-play-btn").forEach((button) => {
     button.addEventListener("click", () => {
       const closestCard = button.closest(".card")
