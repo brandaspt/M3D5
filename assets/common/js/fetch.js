@@ -19,10 +19,19 @@ export const fetchData = (data, callback, album = false, artist = false) => {
     .then((res) => res.json())
     .then((fetchedData) => {
       // console.log(fetchedData)
-      artist && !album ? callback(fetchedData) : callback(fetchedData.data)
+      // ((artist && !album) || album)
+      //   ? callback(fetchedData)
+      //   : callback(fetchedData.data)
+      if (artist && album) {
+        callback(fetchedData.data)
+      } else if (!artist && !album) {
+        callback(fetchedData.data)
+      } else {
+        callback(fetchedData)
+      }
     })
     .catch((err) => {
       console.log(err)
-      fetchData(data, album, artist, callback)
+      // fetchData(data, album, artist, callback)
     })
 }

@@ -7,6 +7,7 @@ import {
   activeNavLink,
 } from "../assets/common/js/player.js"
 
+import { fetchData } from "../assets/common/js/fetch.js"
 
 const playerPlayBtn = document.getElementById("player-play-btn")
 const playerPauseBtn = document.getElementById("player-pause-btn")
@@ -14,31 +15,38 @@ const playerPreviousBtn = document.getElementById("previous-track-btn")
 const playerNextBtn = document.getElementById("next-track-btn")
 const volumeInput = document.getElementById("volume-input")
 
+let hash
 
+window.onload = () => {
+  hash = window.location.hash.replace("#", "")
+  console.log(hash)
+}
 // dynamic populating part
-
-fetch("https://deezerdevs-deezer.p.rapidapi.com/album/84191982", {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-key": "0750e50bdfmsh5caa63f730b70d9p1a24d2jsn08753afd75e9",
-		"x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com"
-	}
-})
-.then(response => response.json())
-.then(data => {
+function giveData(data) {
   addCover(data)
   populateSongs(data)
-})
-.catch(err => {
-	console.error(err);
-});
+}
+fetchData(hash, giveData, true)
 
-
+// fetch("https://deezerdevs-deezer.p.rapidapi.com/album/84191982", {
+//   method: "GET",
+//   headers: {
+//     "x-rapidapi-key": "0750e50bdfmsh5caa63f730b70d9p1a24d2jsn08753afd75e9",
+//     "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+//   },
+// })
+//   .then((response) => response.json())
+//   .then((data) => {
+//     addCover(data)
+//     populateSongs(data)
+//   })
+//   .catch((err) => {
+//     console.error(err)
+//   })
 
 const addCover = (album) => {
-
-  const coverCol = document.createElement('div')
-  coverCol.classList = 'col-md-12 col-lg-4 album-cover'
+  const coverCol = document.createElement("div")
+  coverCol.classList = "col-md-12 col-lg-4 album-cover"
 
   coverCol.innerHTML = `
       <img
@@ -66,16 +74,15 @@ const addCover = (album) => {
         />
       </svg>
   `
-  
-  document.querySelector('.cover').appendChild(coverCol)
+
+  document.querySelector(".cover").appendChild(coverCol)
 }
 
 const populateSongs = (album) => {
-
-  const songsCol = document.createElement('div')
+  const songsCol = document.createElement("div")
   songsCol.classList = "col-md-12 col-lg-8 songs-list"
 
-  album.tracks.data.forEach(e => {
+  album.tracks.data.forEach((e) => {
     songsCol.innerHTML += `
       <div class="row song my-1">
         <div class="col-md-1 song-col d-flex align-items-center justify-content-center">
@@ -93,27 +100,31 @@ const populateSongs = (album) => {
           <p class="card-text">${secsToMins(e.duration)}</p>
         </div>
         <audio src="${e.preview}"></audio>
-      </div>`})
+      </div>`
+  })
 
-  document.querySelector('.cover').appendChild(songsCol)
+  document.querySelector(".cover").appendChild(songsCol)
 
-  document.querySelectorAll('.song-col > svg').forEach(e => e.addEventListener('click', () => {
-    if(e.classList.contains('pause')) {
-      playTrack(e.closest('.row'))
-      e.classList.remove('pause')
-      e.innerHTML = '<path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>'
-      e.classList.add('play')
-    } else {
-      pauseTrack()
-      e.classList.remove('play')
-      e.innerHTML = '<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>'
-      e.classList.add('pause')
-    }
-  }))
+  document.querySelectorAll(".song-col > svg").forEach((e) =>
+    e.addEventListener("click", () => {
+      if (e.classList.contains("pause")) {
+        playTrack(e.closest(".row"))
+        e.classList.remove("pause")
+        e.innerHTML =
+          '<path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>'
+        e.classList.add("play")
+      } else {
+        pauseTrack()
+        e.classList.remove("play")
+        e.innerHTML =
+          '<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>'
+        e.classList.add("pause")
+      }
+    })
+  )
 
+  const topTracksGrid = document.getElementsByClassName("songs-list")[0]
 
-  const topTracksGrid = document.getElementsByClassName('songs-list')[0]
-  
   initMusicPlayer(topTracksGrid)
 
   playerPlayBtn.addEventListener("click", () => {
@@ -121,41 +132,26 @@ const populateSongs = (album) => {
   })
   playerPauseBtn.addEventListener("click", pauseTrack)
   playerPreviousBtn.addEventListener("click", () => {
-    const previousCard =
-      playerSongCard(
-        topTracksGrid
-      ).previousElementSibling
+    const previousCard = playerSongCard(topTracksGrid).previousElementSibling
     playTrack(previousCard)
   })
   playerNextBtn.addEventListener("click", () => {
-    const nextCard =
-      playerSongCard(
-        topTracksGrid
-      ).nextElementSibling
+    const nextCard = playerSongCard(topTracksGrid).nextElementSibling
     playTrack(nextCard)
   })
 }
 
+// rest
 
-
-// rest 
-
-let heart=document.querySelector(".fa-heart")
-heart.addEventListener("click",function(){
-  if(heart.classList.contains("far"))
-  {
-     heart.classList.remove("far")
-  heart.classList.add("fas")
-  heart.style.color = "green";
- 
-  }
-  else{
+let heart = document.querySelector(".fa-heart")
+heart.addEventListener("click", function () {
+  if (heart.classList.contains("far")) {
+    heart.classList.remove("far")
+    heart.classList.add("fas")
+    heart.style.color = "green"
+  } else {
     heart.classList.remove("fas")
     heart.classList.add("far")
-    heart.style.color = "#b4b8b2";
-
+    heart.style.color = "#b4b8b2"
   }
-    
 })
-
-

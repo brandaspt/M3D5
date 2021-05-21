@@ -5,7 +5,7 @@ import {
   playerSongCard,
   secsToMins,
   activeNavLink,
-} from "./assets/common/js/player.js";
+} from "./assets/common/js/player.js"
 
 import { fetchData } from "./assets/common/js/fetch.js"
 
@@ -273,7 +273,9 @@ const populateSearch = (data) => {
                 <a href="./artist/index.html#${track.artist.id}_${
         track.artist.name
       }"><p class="track-artist fw-bold">${track.artist.name}</p></a>
-                <p class="track-album fw-bold">${track.album.title}</p>
+                <a href="./album/index.html#${
+                  track.album.id
+                }"><p class="track-album fw-bold">${track.album.title}</p></a>
                 <p class="card-text">${secsToMins(track.duration)}</p>
               </div>
               <audio src="${track.preview}"></audio>
