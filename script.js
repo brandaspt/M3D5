@@ -5,7 +5,8 @@ import {
   playerSongCard,
   secsToMins,
   activeNavLink,
-} from "./assets/common/js/player.js"
+} from "./assets/common/js/player.js";
+
 import { fetchData } from "./assets/common/js/fetch.js"
 
 const throwbackCards = [
