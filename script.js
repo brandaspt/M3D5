@@ -6,6 +6,7 @@ import {
   secsToMins,
   activeNavLink,
 } from "./assets/common/js/player.js";
+
 const throwbackCards = [
   {
     img: "./assets/home/images/throwback/tile01.jpeg",

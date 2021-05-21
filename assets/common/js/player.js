@@ -10,19 +10,22 @@ const playerDuration = document.getElementById("player-duration");
 
 // Initialize music player
 export const initMusicPlayer = (tracksGrid) => {
-  const firstCard = tracksGrid.querySelector(".card");
+  let firstCard = tracksGrid.querySelector(".card");
+  if(!firstCard) {
+    firstCard = tracksGrid.querySelector('.song')
+  }
   updatePlayerInfo(firstCard);
 };
 
 // Play track
 export const playTrack = (card) => {
-  const previousPlaying = document.querySelector(".card.playing");
+  const previousPlaying = document.querySelector(".playing");
   if (previousPlaying) {
     previousPlaying.querySelector("audio").pause();
     previousPlaying.classList.remove("playing");
   }
 
-  // Card containing the clicked button
+  // Card containing the clicked butto
   card.classList.add("playing");
 
   // Audio element associated with the clicked button
@@ -34,13 +37,14 @@ export const playTrack = (card) => {
   // Update footer player
   // Track Info
   updatePlayerInfo(card);
+  
   // Player controls
   document.querySelector(".music-player").classList.add("playing");
 };
 
 // Pause track
 export const pauseTrack = () => {
-  const nowPlaying = document.querySelector(".card.playing");
+  const nowPlaying = document.querySelector(".playing");
   nowPlaying.querySelector("audio").pause();
   nowPlaying.classList.remove("playing");
   document.querySelector(".music-player").classList.remove("playing");
@@ -48,8 +52,8 @@ export const pauseTrack = () => {
 
 export const playerSongCard = (cardsGrid) => {
   const trackName = playerTrackTitle.innerText;
-  const allCards = cardsGrid.querySelectorAll(".card");
 
+  const allCards = cardsGrid.querySelectorAll(".card").length !== 0 ? cardsGrid.querySelectorAll(".card") : cardsGrid.querySelectorAll(".row");
   for (const card of allCards) {
     if (card.querySelector(".card-title").innerText === trackName) {
       return card;
@@ -73,8 +77,8 @@ Helper Functions
 ##############################
 */
 const updatePlayerInfo = (card) => {
-  playerTrackImg.src = card.querySelector(".card-img-top").src;
-  playerTrackTitle.innerText = card.querySelector(".card-title").innerText;
+  card.querySelector(".card-img-top") ? playerTrackImg.src = card.querySelector(".card-img-top").src : null
+  playerTrackTitle.innerText = card.querySelector(".card-title") ? card.querySelector(".card-title").innerText : card.querySelector('h6').innerText
   playerTrackArtist.innerText = document.querySelector("h1")
     ? document.querySelector("h1").innerText
     : card.querySelector(".track-artist").innerText;
