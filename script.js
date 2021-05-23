@@ -7,7 +7,11 @@ import {
   activeNavLink,
 } from "./assets/common/js/player.js"
 
-import { fetchData } from "./assets/common/js/fetch.js"
+import {
+  fetchSearch,
+  fetchTopRadios,
+  fetchRadioTracks,
+} from "./assets/common/js/fetch.js"
 
 const throwbackCards = [
   {
@@ -123,8 +127,8 @@ const mainNavLinks = document.querySelectorAll(".main-nav a")
 const mainSection = document.querySelector("main")
 
 // Search
-const searchForm = document.getElementById("search-form")
 const searchInput = document.getElementById("search-input")
+const spinner = document.querySelector(".spinner-border")
 const searchGrid = document.querySelector(".search-grid")
 
 // Player
@@ -133,10 +137,6 @@ const playerPauseBtn = document.getElementById("player-pause-btn")
 const playerPreviousBtn = document.getElementById("previous-track-btn")
 const playerNextBtn = document.getElementById("next-track-btn")
 const volumeInput = document.getElementById("volume-input")
-
-// Links
-const artistLink = document.getElementById("artist-link")
-const loginLink = document.getElementById("login-link")
 
 window.onload = () => {
   // Set full urls to links
@@ -150,13 +150,16 @@ window.onload = () => {
   }
 
   // Populate sections
-  populateThrowback()
+
+  fetchTopRadios(populateRadios)
   populateShows()
 
   // Add ev listener to search form
-  searchForm.addEventListener("submit", (e) => {
-    fetchData(searchInput.value, populateSearch)
-    e.preventDefault()
+  searchInput.addEventListener("input", () => {
+    if (searchInput.value.length > 2) {
+      spinner.classList.remove("d-none")
+      fetchSearch(searchInput.value, populateSearch)
+    }
   })
 
   // Volume Input range
@@ -195,25 +198,28 @@ window.onload = () => {
   })
 }
 
-const populateThrowback = () => {
-  const cardsGrid = document.querySelector("#throwback > .throwback-cards")
-  for (const card of throwbackCards) {
-    cardsGrid.innerHTML += `
-        <div class="col p-0">
-                <div class="card border-0 p-2 mx-1 h-100">
-                  <img
-                    src="${card.img}"
-                    class="card-img-top"
-                    alt="${card.name}"
-                  />
-                  <div class="card-body text-center p-1">
-                    <p class="card-title fw-bold">${card.name}</p>
-                    
-                  </div>
-                </div>
-              </div>
+const populateRadios = (topRadiosArray) => {
+  const cardsGrid = document.querySelector("#radios > .radios-cards")
+
+  cardsGrid.innerHTML = topRadiosArray
+    .map(
+      (radio) =>
         `
-  }
+        <div class="col p-0">
+          <div class="card border-0 p-2 mx-1 h-100">
+            <img
+              src="${radio.picture_big}"
+              class="card-img-top"
+              alt="${radio.title} radio cover"
+            />
+            <div class="card-body text-center p-1">
+              <p class="card-title fw-bold">${radio.title}</p>                
+            </div>
+          </div>
+        </div>
+      `
+    )
+    .join("")
 }
 const populateShows = () => {
   const cardsGrid = document.querySelector("#shows > .shows-cards")
@@ -238,15 +244,18 @@ const populateShows = () => {
 
 // Populate search section
 const populateSearch = (data) => {
-  // console.log(data)
+  console.log(data)
+
   // If no results found display alert message
   if (data.length === 0) {
+    spinner.classList.add("d-none")
     document.getElementById("no-results-alert").classList.add("show")
     setTimeout(() => {
       document.getElementById("no-results-alert").classList.remove("show")
-    }, 2000)
+    }, 4000)
     return
   }
+
   searchGrid.innerHTML = data
     .map(
       (track) => `
@@ -275,14 +284,15 @@ const populateSearch = (data) => {
       }"><p class="track-artist fw-bold">${track.artist.name}</p></a>
                 <a href="./album/index.html#${
                   track.album.id
-                }"><p class="track-album fw-bold">${track.album.title}</p></a>
+                }"><p class="track-album my-2">${track.album.title}</p></a>
                 <p class="card-text">${secsToMins(track.duration)}</p>
               </div>
-              <audio src="${track.preview}"></audio>
+              <audio data-trackId="${track.id}" src="${track.preview}"></audio>
           </div>
         </div>`
     )
     .join("")
+  spinner.classList.add("d-none")
 
   document.querySelectorAll("[data-artistid]").forEach((aELement) =>
     aELement.addEventListener("click", () => {

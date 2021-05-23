@@ -63,21 +63,21 @@ Start of home page
     background-color: rgba(0, 0, 0, 0);
   }
 }
-/* Throwback section */
-#throwback {
+/* Radios section */
+#radios {
   margin-top: 40px;
 }
-#throwback .card,
+#radios .card,
 #shows .card {
   background-color: rgba(0, 0, 0, 0.123);
   cursor: pointer;
   transition: 0.75s;
 }
-#throwback .card:hover,
+#radios .card:hover,
 #shows .card:hover {
   transform: scale(1.05);
 }
-#throwback .card-title,
+#radios .card-title,
 #shows .card-title {
   color: white;
   font-size: 0.9em;
@@ -125,9 +125,13 @@ Start of home page
   font-size: 0.9em;
 }
 .track-artist {
-  color: #929292;
+  color: #c4c4c4;
   font-size: 0.8em;
   margin: 0;
+}
+.track-album {
+  color: #929292;
+  font-size: 0.7em;
 }
 .card-text {
   color: #929292;

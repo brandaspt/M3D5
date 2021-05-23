@@ -180,7 +180,7 @@
                   "
                 >
                   <li class="nav-item">
-                    <a class="nav-link active" href="#throwback">THROWBACK</a>
+                    <a class="nav-link active" href="#radios">TOP RADIOS</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#shows">SHOWS</a>
@@ -244,11 +244,11 @@
             </div>
           </nav>
 
-          <section class="container" id="throwback">
-            <h2>#THROWBACKTHURSDAY</h2>
+          <section class="container" id="radios">
+            <h2>Top Radios</h2>
             <div
               class="
-                throwback-cards
+                radios-cards
                 row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6
                 g-4
               "
@@ -267,19 +267,17 @@
           <section class="container" id="search">
             <h2>Search Tracks</h2>
             <div class="d-flex align-items-center mb-4">
-              <form
-                action=""
-                class="d-flex align-items-center"
-                id="search-form"
-              >
-                <input
-                  type="text"
-                  id="search-input"
-                  placeholder="Track name, album, artist..."
-                  required
-                />
-                <button type="submit" class="btn mx-3">Search</button>
-              </form>
+              <input
+                type="text"
+                class="form-control"
+                id="search-input"
+                placeholder="Track name, album, artist..."
+                required
+              />
+              <div class="spinner-border text-info ms-3 d-none" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+
               <div
                 class="alert alert-danger m-0 d-flex align-items-center"
                 id="no-results-alert"
