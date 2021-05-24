@@ -46,9 +46,9 @@ export const fetchSearch = (query, callback) => {
       "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
     },
   })
-    .then((res) => res.json())
-    .then((tracksObj) => callback(tracksObj.data))
-    .catch((err) => {
+    .then(res => res.json())
+    .then(tracksObj => callback(tracksObj.data))
+    .catch(err => {
       console.log(err)
       fetchSearch(query, callback)
     })
@@ -64,9 +64,9 @@ export const fetchArtist = (artistId, callback) => {
       "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
     },
   })
-    .then((res) => res.json())
-    .then((artistObj) => callback(artistObj))
-    .catch((err) => {
+    .then(res => res.json())
+    .then(artistObj => callback(artistObj))
+    .catch(err => {
       console.log(err)
       fetchArtist(artistId, callback)
     })
@@ -82,9 +82,9 @@ export const fetchArtistAlbums = (artistId, callback) => {
       "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
     },
   })
-    .then((res) => res.json())
-    .then((albumsObj) => callback(albumsObj.data))
-    .catch((err) => {
+    .then(res => res.json())
+    .then(albumsObj => callback(albumsObj.data))
+    .catch(err => {
       console.log(err)
       fetchArtistAlbums(artistId, callback)
     })
@@ -101,15 +101,9 @@ export const fetchArtistTracks = (artistName, callback) => {
       "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
     },
   })
-    .then((res) => res.json())
-    .then((tracksObj) =>
-      callback(
-        tracksObj.data.filter((track) =>
-          track.artist.name.toLowerCase().includes(artistName.toLowerCase())
-        )
-      )
-    )
-    .catch((err) => {
+    .then(res => res.json())
+    .then(tracksObj => callback(tracksObj.data.filter(track => track.artist.name.toLowerCase().includes(artistName.toLowerCase()))))
+    .catch(err => {
       console.log(err)
       fetchArtistTracks(artistName, callback)
     })
@@ -125,9 +119,9 @@ export const fetchAlbum = (albumId, callback) => {
       "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
     },
   })
-    .then((res) => res.json())
-    .then((albumObj) => callback(albumObj))
-    .catch((err) => {
+    .then(res => res.json())
+    .then(albumObj => callback(albumObj))
+    .catch(err => {
       console.log(err)
       fetchAlbum(albumId, callback)
     })
@@ -136,16 +130,16 @@ export const fetchAlbum = (albumId, callback) => {
 // Fetch top radios
 // Response is an object containing a 'data' array of radios
 // Invokes callback with the 'data' array
-export const fetchTopRadios = (callback) => {
+export const fetchTopRadios = callback => {
   fetch(`https://deezerdevs-deezer.p.rapidapi.com/radio/top`, {
     headers: {
       "x-rapidapi-key": "7d208f71b8mshfd6cd40bfde572fp107ab9jsnfda73eb5809a",
       "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
     },
   })
-    .then((res) => res.json())
-    .then((radiosObj) => callback(radiosObj.data))
-    .catch((err) => {
+    .then(res => res.json())
+    .then(radiosObj => callback(radiosObj.data))
+    .catch(err => {
       console.log(err)
       fetchTopRadios(callback)
     })
@@ -161,9 +155,9 @@ export const fetchRadioTracks = (radioId, callback) => {
       "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
     },
   })
-    .then((res) => res.json())
-    .then((tracksObj) => callback(tracksObj.data))
-    .catch((err) => {
+    .then(res => res.json())
+    .then(tracksObj => callback(tracksObj.data))
+    .catch(err => {
       console.log(err)
       fetchRadioTracks(radioId, callback)
     })

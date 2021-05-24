@@ -1,17 +1,6 @@
-import {
-  initMusicPlayer,
-  playTrack,
-  pauseTrack,
-  playerSongCard,
-  secsToMins,
-  activeNavLink,
-} from "./assets/common/js/player.js"
+import { updatePlayerInfo, togglePlay, previousTrack, nextTrack, changeVolume, secsToMins } from "./assets/common/js/player.js"
 
-import {
-  fetchSearch,
-  fetchTopRadios,
-  fetchRadioTracks,
-} from "./assets/common/js/fetch.js"
+import { fetchSearch, fetchTopRadios, fetchRadioTracks } from "./assets/common/js/fetch.js"
 
 const throwbackCards = [
   {
@@ -133,10 +122,11 @@ const searchGrid = document.querySelector(".search-grid")
 
 // Player
 const playerPlayBtn = document.getElementById("player-play-btn")
-const playerPauseBtn = document.getElementById("player-pause-btn")
 const playerPreviousBtn = document.getElementById("previous-track-btn")
 const playerNextBtn = document.getElementById("next-track-btn")
 const volumeInput = document.getElementById("volume-input")
+
+let audioEls = []
 
 window.onload = () => {
   // Set full urls to links
@@ -154,7 +144,7 @@ window.onload = () => {
   fetchTopRadios(populateRadios)
   populateShows()
 
-  // Add ev listener to search form
+  // Add ev listener to search input
   searchInput.addEventListener("input", () => {
     if (searchInput.value.length > 2) {
       spinner.classList.remove("d-none")
@@ -163,50 +153,33 @@ window.onload = () => {
   })
 
   // Volume Input range
-  volumeInput.addEventListener("change", (e) => {
-    console.log("changed")
-    volumeInput.style.setProperty("--value", volumeInput.value)
-    volumeInput.style.setProperty(
-      "--min",
-      volumeInput.min === "" ? "0" : volumeInput.min
-    )
-    volumeInput.style.setProperty(
-      "--max",
-      volumeInput.max === "" ? "100" : volumeInput.max
-    )
-    volumeInput.style.setProperty("--value", volumeInput.value)
+  volumeInput.addEventListener("change", () => {
+    changeVolume(audioEls)
   })
 
   // Add event listener to player control buttons
-  playerPlayBtn.addEventListener("click", () => {
-    playTrack(playerSongCard(searchGrid))
+  playerPlayBtn.addEventListener("click", event => {
+    const trackId = event.currentTarget.dataset.trackId
+    togglePlay(searchGrid.querySelector(`[data-track-id="${trackId}"]`))
   })
-  playerPauseBtn.addEventListener("click", pauseTrack)
+
   playerPreviousBtn.addEventListener("click", () => {
-    const previousCard =
-      playerSongCard(
-        searchGrid
-      ).parentElement.previousElementSibling.querySelector(".card")
-    playTrack(previousCard)
+    nextTrack(audioEls)
   })
   playerNextBtn.addEventListener("click", () => {
-    const nextCard =
-      playerSongCard(searchGrid).parentElement.nextElementSibling.querySelector(
-        ".card"
-      )
-    playTrack(nextCard)
+    previousTrack(audioEls)
   })
 }
 
-const populateRadios = (topRadiosArray) => {
+const populateRadios = topRadiosArray => {
   const cardsGrid = document.querySelector("#radios > .radios-cards")
 
   cardsGrid.innerHTML = topRadiosArray
     .map(
-      (radio) =>
+      radio =>
         `
         <div class="col p-0">
-          <div class="card border-0 p-2 mx-1 h-100">
+          <div class="card border-0 p-2 mx-1">
             <img
               src="${radio.picture_big}"
               class="card-img-top"
@@ -226,7 +199,7 @@ const populateShows = () => {
   for (const card of showsCards) {
     cardsGrid.innerHTML += `
         <div class="col p-0">
-                <div class="card border-0 p-2 mx-1 h-100">
+                <div class="card border-0 p-2 mx-1">
                   <img
                     src="${card.img}"
                     class="card-img-top"
@@ -243,9 +216,7 @@ const populateShows = () => {
 }
 
 // Populate search section
-const populateSearch = (data) => {
-  console.log(data)
-
+const populateSearch = data => {
   // If no results found display alert message
   if (data.length === 0) {
     spinner.classList.add("d-none")
@@ -258,59 +229,52 @@ const populateSearch = (data) => {
 
   searchGrid.innerHTML = data
     .map(
-      (track) => `
+      track => `
         <div class="col p-0">
-          <div class="card border-0 p-2 mx-1 h-100">
-              <div class="w-100 position-relative">
-                <img src="${track.album.cover_big}" class="card-img-top" alt="${
-        track.title
-      }"/>
-                <button class="btn rounded-circle card-play-btn">
-                  <svg height="16" role="img" width="16" viewBox="0 0 24 24" aria-hidden="true">
-                    <polygon points="21.57 12 5.98 3 5.98 21 21.57 12" fill="currentColor"></polygon>
-                  </svg>                 
-                </button>
-                <button class="btn rounded-circle card-pause-btn">
-                  <svg height="16" role="img" width="16" viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="5" y="3" width="4" height="18" fill="currentColor"></rect>
-                    <rect x="15" y="3" width="4" height="18" fill="currentColor"></rect>
-                  </svg>
-                </button>
-              </div>
-              <div class="card-body text-center p-1 d-flex flex-column justify-content-between">
-                <p class="card-title fw-bold">${track.title}</p>
-                <a href="./artist/index.html#${track.artist.id}_${
+          <div class="card border-0 p-2 mx-1">
+            <div class="w-100 position-relative">
+              <img src="${track.album.cover_big}" class="card-img-top" alt="${track.title}"/>
+                <i class="fas fa-play-circle toggle-play-btn"><audio data-track-id="${track.id}" data-track-artist="${
         track.artist.name
-      }"><p class="track-artist fw-bold">${track.artist.name}</p></a>
-                <a href="./album/index.html#${
-                  track.album.id
-                }"><p class="track-album my-2">${track.album.title}</p></a>
-                <p class="card-text">${secsToMins(track.duration)}</p>
-              </div>
-              <audio data-trackId="${track.id}" src="${track.preview}"></audio>
+      }" data-track-title="${track.title}" data-album-cover-url="${track.album.cover_small}" src="${
+        track.preview
+      }"></audio></i>                 
+            </div>
+            <div class="card-body text-center p-1 d-flex flex-column justify-content-between">
+              <p class="card-title fw-bold">${track.title}</p>
+              <a href="./artist/index.html?${track.artist.id}_${track.artist.name}"><p class="track-artist fw-bold">${
+        track.artist.name
+      }</p></a>
+              <a href="./album/index.html?${track.album.id}"><p class="track-album my-2">${track.album.title}</p></a>
+              <p class="card-text">${secsToMins(track.duration)}</p>
+            </div>
           </div>
         </div>`
     )
     .join("")
   spinner.classList.add("d-none")
 
-  document.querySelectorAll("[data-artistid]").forEach((aELement) =>
-    aELement.addEventListener("click", () => {
-      _ARTIST = [aELement.dataset.artistid, aELement.dataset.artistname]
-    })
-  )
-
-  searchGrid.querySelectorAll(".card-play-btn").forEach((button) => {
+  searchGrid.querySelectorAll(".toggle-play-btn").forEach(button => {
     button.addEventListener("click", () => {
-      const closestCard = button.closest(".card")
-      playTrack(closestCard)
+      togglePlay(button.querySelector("audio"))
     })
   })
-  searchGrid.querySelectorAll(".card-pause-btn").forEach((button) => {
-    button.addEventListener("click", pauseTrack)
-  })
 
-  initMusicPlayer(searchGrid)
+  audioEls = Array.from(searchGrid.querySelectorAll("audio"))
+  console.log(audioEls)
+  audioEls[0].addEventListener("loadedmetadata", () => {
+    updatePlayerInfo(audioEls[0])
+  })
+}
+
+// Change active link on main nav
+const activeNavLink = e => {
+  // Remove class from previous active
+  const previousActive = document.querySelector(".main-nav a.active")
+  previousActive.classList.remove("active")
+
+  // Add class to new active
+  e.currentTarget.classList.add("active")
 }
 
 // Set bg color for main nav upon scroll

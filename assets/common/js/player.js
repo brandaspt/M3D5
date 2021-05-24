@@ -3,91 +3,89 @@
 Global Selectors
 ##############################
 */
-const playerTrackTitle = document.getElementById("player-track-title");
-const playerTrackImg = document.getElementById("player-track-img");
-const playerTrackArtist = document.getElementById("player-track-artist");
-const playerDuration = document.getElementById("player-duration");
+const playerTrackTitle = document.getElementById("player-track-title")
+const playerTrackImg = document.getElementById("player-track-img")
+const playerTrackArtist = document.getElementById("player-track-artist")
+const playerDuration = document.getElementById("player-duration")
+const playerPlayBtn = document.getElementById("player-play-btn")
+const volumeInput = document.getElementById("volume-input")
 
-// Initialize music player
-export const initMusicPlayer = (tracksGrid) => {
-  let firstCard = tracksGrid.querySelector(".card");
-  if(!firstCard) {
-    firstCard = tracksGrid.querySelector('.song')
-  }
-  updatePlayerInfo(firstCard);
-};
+// Toggle play function
+// Audio element must be inside an <i class="fa-play-circle"> font awesome icon
+export const togglePlay = audioEl => {
+  const parentI = audioEl.parentElement
 
-// Play track
-export const playTrack = (card) => {
-  const previousPlaying = document.querySelector(".playing");
-  if (previousPlaying) {
-    previousPlaying.querySelector("audio").pause();
-    previousPlaying.classList.remove("playing");
-  }
+  const currPlaying = document.querySelector(".playing")
 
-  // Card containing the clicked butto
-  card.classList.add("playing");
-
-  // Audio element associated with the clicked button
-  const audioEl = card.querySelector("audio");
-
-  // Start playing audio
-  audioEl.play();
-
-  // Update footer player
-  // Track Info
-  updatePlayerInfo(card);
-  
-  // Player controls
-  document.querySelector(".music-player").classList.add("playing");
-};
-
-// Pause track
-export const pauseTrack = () => {
-  const nowPlaying = document.querySelector(".playing");
-  nowPlaying.querySelector("audio").pause();
-  nowPlaying.classList.remove("playing");
-  document.querySelector(".music-player").classList.remove("playing");
-};
-
-export const playerSongCard = (cardsGrid) => {
-  const trackName = playerTrackTitle.innerText;
-
-  const allCards = cardsGrid.querySelectorAll(".card").length !== 0 ? cardsGrid.querySelectorAll(".card") : cardsGrid.querySelectorAll(".row");
-  for (const card of allCards) {
-    if (card.querySelector(".card-title").innerText === trackName) {
-      return card;
+  if (audioEl.paused) {
+    if (currPlaying) {
+      currPlaying.querySelector("audio").pause()
+      currPlaying.classList.remove("playing")
+      currPlaying.classList.remove("fa-pause-circle")
+      currPlaying.classList.add("fa-play-circle")
     }
+    audioEl.play()
+    parentI.classList.add("playing")
+    parentI.classList.add("fa-pause-circle")
+    parentI.classList.remove("fa-play-circle")
+    playerPlayBtn.setAttribute("data-track-id", `${audioEl.dataset.trackId}`)
+    playerPlayBtn.className = "fas fa-pause-circle"
+
+    updatePlayerInfo(audioEl)
+  } else {
+    audioEl.pause()
+    parentI.classList.remove("playing")
+    parentI.classList.remove("fa-pause-circle")
+    parentI.classList.add("fa-play-circle")
+    playerPlayBtn.className = "fas fa-play-circle"
   }
-};
+}
 
-// Change active link on main nav
-export const activeNavLink = (e) => {
-  // Remove class from previous active
-  const previousActive = document.querySelector(".main-nav a.active");
-  previousActive.classList.remove("active");
+export const updatePlayerInfo = audioEl => {
+  playerTrackImg.src = audioEl.dataset.albumCoverUrl
+  playerTrackTitle.innerText = audioEl.dataset.trackTitle
+  playerTrackArtist.innerText = audioEl.dataset.trackArtist
+  playerPlayBtn.setAttribute("data-track-id", `${audioEl.dataset.trackId}`)
+  playerDuration.innerText = secsToMins(Math.round(audioEl.duration))
+}
 
-  // Add class to new active
-  e.currentTarget.classList.add("active");
-};
+export const previousTrack = audioElsArray => {
+  const currAudioIndex = audioElsArray.findIndex(audioEl => audioEl.dataset.trackId === playerPlayBtn.dataset.trackId)
+  if (currAudioIndex === audioElsArray.length - 1) {
+    togglePlay(audioElsArray[0])
+  } else {
+    togglePlay(audioElsArray[currAudioIndex + 1])
+  }
+}
+
+export const nextTrack = audioElsArray => {
+  const currAudioIndex = audioElsArray.findIndex(audioEl => audioEl.dataset.trackId === playerPlayBtn.dataset.trackId)
+  if (currAudioIndex === 0) {
+    togglePlay(audioElsArray[audioElsArray.length - 1])
+  } else {
+    togglePlay(audioElsArray[currAudioIndex - 1])
+  }
+}
+
+export const changeVolume = audioElsArray => {
+  volumeInput.style.setProperty("--value", volumeInput.value)
+  volumeInput.style.setProperty("--min", volumeInput.min === "" ? "0" : volumeInput.min)
+  volumeInput.style.setProperty("--max", volumeInput.max === "" ? "100" : volumeInput.max)
+  volumeInput.style.setProperty("--value", volumeInput.value)
+  audioElsArray.forEach(audioEl => {
+    audioEl.volume = volumeInput.value / 100
+  })
+}
 
 /*
 ##############################
 Helper Functions
 ##############################
 */
-const updatePlayerInfo = (card) => {
-  card.querySelector(".card-img-top") ? playerTrackImg.src = card.querySelector(".card-img-top").src : null
-  playerTrackTitle.innerText = card.querySelector(".card-title") ? card.querySelector(".card-title").innerText : card.querySelector('h6').innerText
-  playerTrackArtist.innerText = document.querySelector("h1")
-    ? document.querySelector("h1").innerText
-    : card.querySelector(".track-artist").innerText;
-  playerDuration.innerText = card.querySelector(".card-text").innerText;
-};
 
-export const secsToMins = (seconds) => {
-  const intMins = Math.floor(seconds / 60);
-  const remainingSecs = seconds % 60;
+export const secsToMins = seconds => {
+  const intMins = Math.floor(seconds / 60)
+  const remainingSecs = seconds % 60
 
-  return `${intMins}:${("0" + remainingSecs).slice(-2)}`;
-};
+  return `${intMins}:${("0" + remainingSecs).slice(-2)}`
+}

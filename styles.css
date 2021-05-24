@@ -92,28 +92,26 @@ Start of home page
 #search {
   min-height: 60vh;
 }
-#search-form button {
-  background-color: #1cb955;
-  color: white;
-  font-weight: 700;
-}
-#search-form > * {
-  height: 40px;
-  border-radius: 5px;
-}
 #search-input {
   width: 230px;
+}
+.spinner-border {
+  position: absolute;
+  left: 240px;
+  top: 3px;
+  height: 30px;
+  width: 30px;
 }
 #no-results-alert {
   height: 40px;
   border-radius: 5px;
   opacity: 0;
-  transform: scaleY(0);
+  transform: translateY(-50%) scaleY(0);
   transition: 1s;
 }
 #no-results-alert.show {
   opacity: 1;
-  transform: scaleY(1);
+  transform: translateY(0) scaleY(1);
 }
 /* Search grid */
 #search .card {
@@ -137,35 +135,26 @@ Start of home page
   color: #929292;
   font-size: 0.8em;
 }
-.card-play-btn,
-.card-pause-btn {
-  display: flex;
-  align-items: center;
+.toggle-play-btn {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  height: 40px;
-  width: 40px;
-  background-color: #1cb955;
-  color: white;
-  text-align: center;
+  color: #1cb955;
   filter: drop-shadow(0 5px 10px black);
-}
-.playing .card-play-btn {
-  display: none;
-}
-.playing .card-pause-btn {
-  display: block;
-}
-.card-play-btn {
   transform: translateY(50%) scaleY(0);
   opacity: 0;
   transition: 0.5s;
+  font-size: 1.8em;
 }
-.card-pause-btn {
-  display: none;
+.toggle-play-btn.playing {
+  transform: translateY(0%) scaleY(1);
+  opacity: 1;
 }
-#search .card:hover .card-play-btn {
+#search .card:hover .toggle-play-btn {
+  transform: translateY(0) scaleY(1);
+  opacity: 1;
+}
+#search .card:hover .toggle-play-btn.toggle-play-btn.playing {
   transform: translateY(0) scaleY(1);
   opacity: 1;
 }

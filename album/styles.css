@@ -39,6 +39,9 @@ main p {
   font-weight: 500;
   line-height: 19px;
 }
+a:hover {
+  color: rgb(192, 192, 192);
+}
 /* when does margin-left or margin-right auto works? and how can i better select */
 .col-md-1,
 .col-md-2 {

@@ -9,21 +9,9 @@ header {
   height: 400px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
-  -webkit-mask-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgba(0, 0, 0, 1)),
-    to(rgba(0, 0, 0, 0))
-  );
-  mask-image: gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgba(0, 0, 0, 1)),
-    to(rgba(0, 0, 0, 0))
-  );
+  background-position: top;
+  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
+  mask-image: gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 1)), to(rgba(0, 0, 0, 0)));
 }
 .hero-content {
   position: absolute;
@@ -140,7 +128,6 @@ header {
 #albums .card,
 #top-tracks .card {
   background-color: rgba(0, 0, 0, 0.123);
-  cursor: pointer;
   transition: 0.5s;
 }
 #albums .card:hover,
@@ -162,36 +149,29 @@ header {
   color: #929292;
   font-size: 0.8em;
 }
-.card-play-btn,
-.card-pause-btn {
-  display: flex;
-  align-items: center;
+.toggle-play-btn,
+.tracklist-btn {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  height: 40px;
-  width: 40px;
-  background-color: #1cb955;
-  color: white;
-  text-align: center;
+  color: #1cb955;
   filter: drop-shadow(0 5px 10px black);
-}
-.playing .card-play-btn {
-  display: none;
-}
-.playing .card-pause-btn {
-  display: block;
-}
-.card-play-btn {
   transform: translateY(50%) scaleY(0);
   opacity: 0;
   transition: 0.5s;
+  font-size: 1.8em;
+  cursor: pointer;
 }
-.card-pause-btn {
-  display: none;
+.toggle-play-btn.playing {
+  transform: translateY(0%) scaleY(1);
+  opacity: 1;
 }
-#albums .card:hover .card-play-btn,
-#top-tracks .card:hover .card-play-btn {
+#top-tracks .card:hover .toggle-play-btn,
+#albums .card:hover .tracklist-btn {
+  transform: translateY(0) scaleY(1);
+  opacity: 1;
+}
+#top-tracks .card:hover .toggle-play-btn.toggle-play-btn.playing {
   transform: translateY(0) scaleY(1);
   opacity: 1;
 }
@@ -208,10 +188,12 @@ header {
   background-position: top;
   color: white;
 }
-.about-description {
-  height: 30%;
-  overflow-y: scroll;
-  cursor: ns-resize;
+#about-listeners {
+  background-color: #1cb955;
+  filter: drop-shadow(0 5px 10px black);
+  color: black;
+  padding: 5px 10px;
+  border-radius: 20px;
 }
 
 /*

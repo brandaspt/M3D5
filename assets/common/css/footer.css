@@ -3,11 +3,11 @@ footer {
   background-color: #2c2c2c;
   color: #dadada;
 }
-footer svg {
+footer i {
   color: #dadada;
   cursor: pointer;
 }
-footer svg:hover {
+footer i:hover {
   color: #dadada;
 }
 footer > div {
@@ -24,18 +24,16 @@ footer .track-text p:first-child {
 footer .track-text p:last-child {
   color: #888988;
 }
-.track-info svg {
-  display: none;
+footer .track-text p {
+  width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
 @media screen and (min-width: 576px) {
-  .track-info svg {
-    display: block;
-  }
   footer .extra-controls > * {
     display: none;
-  }
-  footer .extra-controls > * {
-    margin: 0 5px;
   }
 }
 
@@ -46,15 +44,13 @@ footer .player-controls {
 footer .player-controls-btns > * {
   color: white;
   margin: 0 10px;
+  cursor: pointer;
 }
-.playing #player-play-btn {
-  display: none;
+footer .player-controls-btns > *:hover {
+  color: #dadada;
 }
-.playing #player-pause-btn {
-  display: block;
-}
-#player-pause-btn {
-  display: none;
+#player-play-btn {
+  font-size: 2em;
 }
 .progress {
   width: 100%;
@@ -129,18 +125,15 @@ footer .player-controls-btns > * {
 } */
 
 #volume-input::-webkit-slider-runnable-track {
-  background: linear-gradient(#dadada, #dadada) 0 / var(--sx) 100% no-repeat,
-    #888988;
+  background: linear-gradient(#dadada, #dadada) 0 / var(--sx) 100% no-repeat, #888988;
 }
 
 #volume-input:hover::-webkit-slider-runnable-track {
-  background: linear-gradient(#dadada, #dadada) 0 / var(--sx) 100% no-repeat,
-    #888988;
+  background: linear-gradient(#dadada, #dadada) 0 / var(--sx) 100% no-repeat, #888988;
 }
 
 #volume-input:active::-webkit-slider-runnable-track {
-  background: linear-gradient(#dadada, #dadada) 0 / var(--sx) 100% no-repeat,
-    #888988;
+  background: linear-gradient(#dadada, #dadada) 0 / var(--sx) 100% no-repeat, #888988;
 }
 
 /* Extra controls */
